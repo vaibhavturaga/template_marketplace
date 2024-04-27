@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Add CSS styles for the header section */
+        .header-section {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 20px 0; /* Add some padding top and bottom */
+        }
+
+        .header-section h1 {
+            border-bottom: 2px solid white; /* Add a white line under the h1 element */
+            display: inline-block; /* Keep the h1 element and line on the same line */
+            padding-bottom: 5px; /* Add some space between the text and the line */
+        }
+
+        /* Add CSS styles for test result boxes */
+        .test-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        /* CSS for different score colors */
+        .red-score {
+            color: red;
+        }
+
+        .yellow-score {
+            color: yellow;
+        }
+
+        .green-score {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    {% if project %}
+    <section class="header-section"> 
+        <h1>{{ project.name }}</h1> 
+    </section>
+        <h2>GitHub URL: <a href="{{ project.github_url }}">{{ project.github_url }}</a></h2>
+    {% else %}
+        <p>Project not found</p>
+    {% endif %}
+
+    <h2>Test Results</h2>
+
+    <div class="test-box">
+        <p class="test-name">[CII-Best-Practices]:</p>
+        <p class="{% if test_results.cii_best_practices == 10 %}green-score{% elif test_results.cii_best_practices >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.cii_best_practices }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Fuzzing]:</p>
+        <p class="{% if test_results.fuzzing == 10 %}green-score{% elif test_results.fuzzing >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.fuzzing }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Pinned-Dependencies]:</p>
+        <p class="{% if test_results.pinned_dependencies == 10 %}green-score{% elif test_results.pinned_dependencies >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.pinned_dependencies }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[CI-Tests]:</p>
+        <p class="{% if test_results.ci_tests == 10 %}green-score{% elif test_results.ci_tests >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.ci_tests }}/10</p>
+    </div>
+    
+    <div class="test-box">
+        <p class="test-name">[Maintained]:</p>
+        <p class="{% if test_results.maintained == 10 %}green-score{% elif test_results.maintained >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.maintained }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Packaging]:</p>
+        <p class="{% if test_results.packaging == 10 %}green-score{% elif test_results.packaging >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.packaging }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[SAST]:</p>
+        <p class="{% if test_results.sast == 10 %}green-score{% elif test_results.sast >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.sast }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Dependency-Update-Tool]:</p>
+        <p class="{% if test_results.dependency_update_tool == 10 %}green-score{% elif test_results.dependency_update_tool >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.dependency_update_tool }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Token-Permissions]:</p>
+        <p class="{% if test_results.token_permissions == 10 %}green-score{% elif test_results.token_permissions >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.token_permissions }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Security-Policy]:</p>
+        <p class="{% if test_results.security_policy == 10 %}green-score{% elif test_results.security_policy >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.security_policy }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Signed-Releases]:</p>
+        <p class="{% if test_results.signed_releases == 10 %}green-score{% elif test_results.signed_releases >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.signed_releases }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Binary-Artifacts]:</p>
+        <p class="{% if test_results.binary_artifacts == 10 %}green-score{% elif test_results.binary_artifacts >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.binary_artifacts }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Branch-Protection]:</p>
+        <p class="{% if test_results.branch_protection == 10 %}green-score{% elif test_results.branch_protection >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.branch_protection }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Code-Review]:</p>
+        <p class="{% if test_results.code_review == 10 %}green-score{% elif test_results.code_review >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.code_review }}/10</p>
+    </div>
+
+    <div class= "test-box">
+        <p class="test-name">[Contributors]:</p>
+        <p class="{% if test_results.contributors == 10 %}green-score{% elif test_results.contributors >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.contributors }}/10</p>
+    </div>
+
+    <div class="test-box">
+        <p class="test-name">[Vulnerabilities]:</p>
+        <p class="{% if test_results.vulnerabilities == 10 %}green-score{% elif test_results.vulnerabilities >= 6 %}yellow-score{% else %}red-score{% endif %}">{{ test_results.vulnerabilities }}/10</p>
+    </div>
+    </body>
+</html>

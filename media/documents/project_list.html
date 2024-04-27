@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project List</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Add CSS styles for the header section */
+        .header-section {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 20px 0; /* Add some padding top and bottom */
+        }
+
+        .header-section h1 {
+            border-bottom: 2px solid white; /* Add a white line under the h1 element */
+            display: inline-block; /* Keep the h1 element and line on the same line */
+            padding-bottom: 5px; /* Add some space between the text and the line */
+        }
+
+        /* Add CSS styles for project boxes */
+        .project-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-height: 100vh; /* Set max height to 100% of the viewport height */
+            overflow-y: auto; /* Enable vertical scrolling if needed */
+        }
+
+        .project-box {
+            width: calc(33.33% - 20px); /* Calculate the width for three boxes per row with spacing */
+            padding: 20px; /* Increase padding to make the boxes bigger */
+            margin: 10px; /* Increase margin for spacing between boxes */
+            border: 1px solid #ccc;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .project-name {
+            font-size: 1.2em; /* Increase font size for project names */
+            margin-bottom: 10px; /* Add space below project names */
+        }
+
+        .project-link {
+            text-decoration: none; /* Remove underlines from project links */
+            color: #007BFF; /* Set link color to blue */
+        }
+    </style>
+</head>
+<body>
+    <section class="header-section">
+        <h1>Project List</h1>
+    </section>
+
+    <div class="project-boxes">
+        {% for project in projects %}
+            <div class="project-box">
+                <div class="project-name">
+                    <a href="{% url 'test_results' project.name %}" class="project-link">{{ project.name }}</a>
+                </div>
+                <a href="{{ project.repourl }}" class="project-link" target="_blank">{{ project.repourl }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

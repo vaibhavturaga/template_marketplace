@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Preview HTML Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="file"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #5c67f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background-color: #4a54e1;
+        }
+        .files-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .file-box {
+            flex: 1 1 30%; /* flex-grow, flex-shrink, flex-basis */
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            height: 250px; /* Fixed height, or adjust as necessary */
+        }
+        iframe {
+            width: 100%;
+            height: 150px; /* Adjust based on your needs */
+            border: none;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Upload New HTML File</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Enter file name" required>
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+    
+        <form method="get" action="">
+            <input type="text" name="search" placeholder="Search by name" value="{{ request.GET.search }}">
+            <button type="submit">Search</button>
+        </form>
+    
+        <h2>Uploaded HTML Files</h2>
+        <div class="files-grid">
+            {% for document in documents %}
+            <div class="file-box">
+                <strong>{{ document.name }}</strong> - {{ document.file.name }} (uploaded on {{ document.uploaded_at }})
+                <br>
+                <a href="{% url 'download' document.pk %}">Download</a>
+                <iframe src="{{ document.file.url }}" sandbox></iframe>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+</body>
+</html>
