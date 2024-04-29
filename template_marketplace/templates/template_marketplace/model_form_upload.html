@@ -25,7 +25,7 @@
         form {
             margin-bottom: 20px;
         }
-        input[type="text"], input[type="file"] {
+        input[type="text"], input[type="file"], textarea {
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 10px;
@@ -59,14 +59,27 @@
             background-color: #fff;
             border-radius: 4px;
             height: 250px; /* Fixed height, or adjust as necessary */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden; /* Prevents content from spilling over */
         }
         iframe {
             width: 100%;
             height: 150px; /* Adjust based on your needs */
             border: none;
         }
+        img {
+            max-width: 100%;
+            max-height: 100px; /* Adjust based on your design */
+            object-fit: cover; /* Ensures that images are resized to fit in their container without losing their aspect ratio */
+        }
+        .link-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
+        }
     </style>
-    
 </head>
 <body>
     <div class="container">
@@ -90,10 +103,11 @@
             <div class="file-box">
                 <strong>{{ document.name }}</strong> - (uploaded on {{ document.uploaded_at }})
                 <p>{{ document.description }}</p>
-                <img src="{{ document.image_banner.url }}" alt="Banner" style="width: 100%; height: 100%;">
-                <br>
-                <a href="{% url 'download' document.pk %}">Download</a>
-                <a href="{{ document.file_url }}" target="_blank">View</a>
+                <img src="{{ document.image_banner.url }}" alt="Banner">
+                <div class="link-container">
+                    <a href="{% url 'download' document.pk %}">Download</a>
+                    <a href="{{ document.file_url }}" target="_blank">View</a>
+                </div>
             </div>
             {% endfor %}
         </div>
