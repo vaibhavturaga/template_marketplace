@@ -32,52 +32,59 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        button {
+        button, .button-link {
             background-color: #5c67f2;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             text-transform: uppercase;
             cursor: pointer;
             border-radius: 4px;
             transition: background 0.3s ease;
+            text-decoration: none; /* Remove underline from links */
+            display: inline-block; /* Align with button elements */
         }
-        button:hover {
+        button:hover, .button-link:hover {
             background-color: #4a54e1;
         }
         .files-grid {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: space-between;
         }
         .file-box {
-            flex: 1 1 30%; /* flex-grow, flex-shrink, flex-basis */
+            flex: 1 1 45%;
             box-sizing: border-box;
             border: 1px solid #ccc;
             margin: 10px;
             padding: 10px;
             background-color: #fff;
             border-radius: 4px;
-            height: 250px; /* Fixed height, or adjust as necessary */
+            height: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden; /* Prevents content from spilling over */
+            overflow: hidden;
         }
         iframe {
             width: 100%;
-            height: 150px; /* Adjust based on your needs */
+            height: 150px;
             border: none;
         }
         img {
             max-width: 100%;
-            max-height: 100px; /* Adjust based on your design */
-            object-fit: cover; /* Ensures that images are resized to fit in their container without losing their aspect ratio */
+            max-height: 100px;
+            object-fit: cover;
         }
         .link-container {
             display: flex;
             width: 100%;
-            justify-content: space-evenly;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .label {
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -86,13 +93,13 @@
         <h1>Upload New Template</h1>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <h3> Enter Project Name</h3>
-            <input type="text" name="name" placeholder="Enter project name" required>
-            <h3> Enter Description</h3>
+            <label class="label">Enter Template Name</label>
+            <input type="text" name="name" placeholder="Enter template name" required>
+            <label class="label">Enter Description</label>
             <textarea name="description" placeholder="Enter description" required></textarea>
-            <h3> Upload Zip File</h3>
+            <label class="label">Upload Zip File</label>
             <input type="file" name="file" required>
-            <h3> Upload Banner</h3>
+            <label class="label">Upload Banner</label>
             <input type="file" name="image_banner" accept="image/*" required>
             <button type="submit">Upload</button>
         </form>
@@ -101,15 +108,18 @@
         <div class="files-grid">
             {% for document in documents %}
             <div class="file-box">
-                <strong>{{ document.name }}</strong> - (uploaded on {{ document.uploaded_at }})
+                <strong>Template Name: {{ document.name }}</strong> 
+                <div class="label">Description:</div>
                 <p>{{ document.description }}</p>
+                <div class="label">Banner:</div>
                 <img src="{{ document.image_banner.url }}" alt="Banner">
                 <div class="link-container">
-                    <a href="{% url 'download' document.pk %}">Download</a>
-                    <a href="{{ document.file_url }}" target="_blank">View</a>
+                    <a class="button-link" href="{% url 'download' document.pk %}">Download</a>
+                    <a class="button-link" href="{{ document.file_url }}" target="_blank">View</a>
                 </div>
             </div>
             {% endfor %}
         </div>
+    </div>
 </body>
 </html>
